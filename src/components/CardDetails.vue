@@ -131,8 +131,9 @@ export default {
 }
 
 .price-item {
-  flex: 1;
+  flex: 0 1 calc(20% - 20px);
   margin-bottom: 20px;
+  margin-right: 20px;
   padding: 10px;
   border: 1px solid #ccc;
 }
@@ -144,6 +145,7 @@ export default {
 .price-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 5px;
 }
 
@@ -153,6 +155,6 @@ export default {
 }
 
 .price-value {
-  margin-left: 5px;
+  margin-left: auto;
 }
 </style>
