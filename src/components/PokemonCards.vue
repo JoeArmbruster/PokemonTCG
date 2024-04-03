@@ -2,20 +2,17 @@
   <div>
     <input type="text" v-model="searchQuery" @input="searchCards" placeholder="Search for Pokémon">
     <div v-if="isLoading">Loading...</div>
-    <div v-else class="card-container">
-      <div v-for="card in cards" :key="card.id" class="card">
+    <div v-else>
+      <div v-for="card in cards" :key="card.id">
+        <img :src="card.images.small" alt="Pokemon Card" @click="showCardDetails(card)">
         <p>Name: {{ card.name }}</p>
-        <router-link :to="{ name: 'CardDetails', params: { id: card.id } }">
-          <img :src="card.images.small" alt="Pokemon Card">
-        </router-link>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-import pokemon from 'pokemontcgsdk';
+import pokemon from '../api/index'; // Import the Pokémon TCG SDK
 
 export default {
   data() {
@@ -36,6 +33,9 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+    showCardDetails(card) {
+      this.$router.push({ name: 'CardDetails', params: { id: card.id } });
     },
   },
 };
