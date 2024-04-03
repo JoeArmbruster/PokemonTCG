@@ -20,9 +20,9 @@ const get = (type, args) => {
 };
 
 export default (type) => ({
-  find: id => {
-    return axios(`${configuration.host}/${type}/${id}`, getOptions())
-      .then(response => response.data.data);
+  find: async id => {
+    const response = await axios(`${configuration.host}/${type}/${id}`, getOptions());
+        return response.data.data;
   },
   where: (args) => get(type, args),
   all: (args={}, data=[]) => {
