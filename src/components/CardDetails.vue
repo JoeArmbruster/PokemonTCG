@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div v-if="!isLoading">
     <h1>{{ card.name }}</h1>
     <img :src="card.images.large" alt="Card Image">
   </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script>
@@ -23,7 +24,9 @@ export default {
   },
   async created() {
     try {
+      console.log('Fetching card details for ID:', this.cardId);
       const response = await pokemon.card.find(this.cardId);
+      console.log('API Response:', response); // Check the response in the console
       this.card = response.data;
     } catch (error) {
       console.error('Error fetching card details:', error);
@@ -33,7 +36,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 /* Add any necessary styling here */
