@@ -1,20 +1,29 @@
 <template>
   <div class="card-details">
     <div class="left-section">
+      <h2>{{ card.name }} - {{ card.set.name }}</h2>
       <img :src="card.images.large" alt="Card Image" />
-      <h2>{{ card.name }}</h2>
     </div>
     <div class="right-section">
       <h3>Pricing Information</h3>
       <div class="pricing-info">
-        <div v-for="priceType in filteredPriceTypes" :key="priceType" class="price-item">
+        <div
+          v-for="priceType in filteredPriceTypes"
+          :key="priceType"
+          class="price-item"
+        >
           <h4>{{ priceType }}</h4>
-          <div class="price-category">
-            <div v-for="priceCategory in priceCategories" :key="priceCategory">
-              <span>{{ priceCategory }}:</span>
-              <span v-if="hasPriceCategory(priceType, priceCategory)">
-                ${{ getPrice(priceType, priceCategory) }}
-              </span>
+          <div
+            class="price-row"
+            v-for="priceCategory in priceCategories"
+            :key="priceCategory"
+          >
+            <div class="label">{{ priceCategory }}:</div>
+            <div
+              class="price-value"
+              v-if="hasPriceCategory(priceType, priceCategory)"
+            >
+              ${{ getPrice(priceType, priceCategory) }}
             </div>
           </div>
         </div>
@@ -46,7 +55,7 @@ export default {
         "1stEditionHolofoil",
         "1stEditionNormal",
       ],
-      priceCategories: ["low", "mid", "high", "market", "directLow"],
+      priceCategories: ["market", "high", "mid", "low"],
     };
   },
   async created() {
@@ -64,8 +73,8 @@ export default {
   },
   computed: {
     filteredPriceTypes() {
-      return this.priceTypes.filter(priceType => this.hasPrices(priceType));
-    }
+      return this.priceTypes.filter((priceType) => this.hasPrices(priceType));
+    },
   },
   methods: {
     hasPrices(priceType) {
@@ -132,17 +141,18 @@ export default {
   margin-bottom: 10px;
 }
 
-.price-category {
-  margin-bottom: 10px;
-}
-
-.price-category div {
+.price-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  margin-bottom: 5px;
 }
 
-.price-item span {
+.label {
+  font-weight: bold;
   margin-right: 10px;
+}
+
+.price-value {
+  margin-left: 5px;
 }
 </style>
