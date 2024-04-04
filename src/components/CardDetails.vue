@@ -2,30 +2,22 @@
   <div class="card-details">
     <div class="left-section">
       <h2>{{ card.name }} - {{ card.set.name }}</h2>
-      <img :src="card.images.large" alt="Card Image" />
+      <img :src="card.images.large" alt="Card Image" class="card-image" />
     </div>
     <div class="right-section">
       <h3>Pricing Information</h3>
       <div class="pricing-info">
-        <div
-          v-for="priceType in filteredPriceTypes"
-          :key="priceType"
-          class="price-item"
-        >
+        <div v-for="priceType in filteredPriceTypes" :key="priceType" class="price-item">
           <h4>{{ priceType }}</h4>
-          <div
-            class="price-row"
-            v-for="priceCategory in priceCategories"
-            :key="priceCategory"
-          >
-            <div class="label">{{ priceCategory }}:</div>
-            <div
-              class="price-value"
-              v-if="hasPriceCategory(priceType, priceCategory)"
-            >
-              ${{ getPrice(priceType, priceCategory) }}
+          <div v-if="hasPrices(priceType)" class="price-category">
+            <div v-for="priceCategory in priceCategories" :key="priceCategory" class="price-row">
+              <span class="label">{{ priceCategory }}:</span>
+              <span class="price-value" v-if="hasPriceCategory(priceType, priceCategory)">
+                ${{ getPrice(priceType, priceCategory) }}
+              </span>
             </div>
           </div>
+          <div v-else>No prices available</div>
         </div>
       </div>
       <a :href="card.tcgplayer.url" target="_blank">Buy from TCGplayer</a>
@@ -115,6 +107,8 @@ export default {
 .card-details {
   display: flex;
   justify-content: space-between;
+  padding-left: 20px;
+  align-items: center;
 }
 
 .left-section {
@@ -123,38 +117,49 @@ export default {
 
 .right-section {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .pricing-info {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .price-item {
-  flex: 0 1 calc(20% - 20px);
   margin-bottom: 20px;
-  margin-right: 20px;
   padding: 10px;
   border: 1px solid #ccc;
+  text-align: center;
+  max-width: 200px;
 }
 
 .price-item h4 {
   margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+.price-category {
+  margin-top: 10px;
 }
 
 .price-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   margin-bottom: 5px;
 }
 
 .label {
   font-weight: bold;
-  margin-right: 10px;
+  font-size: 1.1em;
 }
 
 .price-value {
-  margin-left: auto;
+  font-size: 1.1em;
+}
+
+.card-image {
+  max-width: 100%;
 }
 </style>
